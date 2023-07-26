@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>New Tab Quote</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Victor+Mono:wght@500&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="/styles/styles.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="quote-container">
+        <h3 id="quote-title">
+          You have power over your mind - not outside events. Realize this, and
+          you will find strength.
+        </h3>
+        <h5 id="quote-author">Marcus Aurelius</h5>
+      </div>
+
+      <div class="add-quote-container">
+        <form class="add-quote-form">
+          <label for="add-quote-title">Quote</label>
+          <textarea
+            name="add-quote-title"
+            id="add-quote-title"
+            rows="10"
+          ></textarea>
+
+          <label for="add-quote-author">Author</label>
+          <input type="text" name="add-quote-author" id="add-quote-author" />
+
+          <button id="add-quote-button" type="button">Submit</button>
+        </form>
+      </div>
+
+      <div id="menu-container" class="menu-container">
+        <div class="button-container">
+          <button
+            id="new-quote-button"
+            class="new-quote-button round-btn hidden"
+          >
+            <img src="/assets/add.svg" alt="" srcset="" />
+          </button>
+        </div>
+        <div class="button-container">
+          <button
+            id="file-upload-button"
+            class="file-upload-button round-btn hidden"
+          >
+            <img src="/assets/file-upload.svg" alt="" srcset="" />
+          </button>
+        </div>
+
+        <div class="button-container">
+          <button
+            id="file-download-button"
+            class="file-download-button round-btn hidden"
+          >
+            <img src="/assets/file-download.svg" alt="" srcset="" />
+          </button>
+        </div>
+
+        <div class="button-container">
+          <button id="delete-all-button" class="round-btn hidden">
+            <img src="/assets/delete-all.svg" alt="" srcset="" />
+          </button>
+        </div>
+
+        <div class="button-container">
+          <button id="random-quote-button" class="round-btn hidden">
+            <img src="/assets/shuffle.svg" alt="" srcset="" />
+          </button>
+        </div>
+
+        <div class="button-container color-button-container">
+          <button id="color-button" class="color-button round-btn hidden">
+            <img alt="" srcset="" />
+          </button>
+          <div class="sub-menu hidden">
+            <button class="round-btn hidden"></button>
+            <button class="round-btn hidden"></button>
+            <button class="round-btn hidden"></button>
+            <button class="round-btn hidden"></button>
+          </div>
+        </div>
+        <div class="button-container">
+          <button id="menu-btn" class="round-btn show">
+            <img src="/assets/menu.svg" alt="" srcset="" />
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- <script type="module" src="/js/main.js"></script> -->
+    <script type="module" src="/newtab.js"></script>
+  </body>
+</html>
