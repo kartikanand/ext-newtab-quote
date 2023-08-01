@@ -1,0 +1,25 @@
+{
+  "name": "ext-newtab-quote",
+  "version": "0.0.1",
+  "description": "A chrome extension to display random quotes on the new tab page.",
+  "main": "newtab.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kartikanand/ext-newtab-quote.git"
+  },
+  "author": "Kartik Anand",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kartikanand/ext-newtab-quote/issues"
+  },
+  "homepage": "https://github.com/kartikanand/ext-newtab-quote#readme",
+  "devDependencies": {
+    "eslint": "^8.46.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-prettier": "^8.9.0",
+    "eslint-plugin-import": "^2.28.0"
+  }
+}
