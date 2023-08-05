@@ -19,7 +19,7 @@ export default class Model {
   }
 
   getRandomQuote() {
-    const quotes = this.model.quotes;
+    const { quotes } = this.model;
     const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
 
     return {
@@ -52,6 +52,7 @@ export default class Model {
 
   async clear() {
     await chrome.storage.local.clear();
+    this.model = defaultModel;
   }
 
   addQuote(quote, author) {

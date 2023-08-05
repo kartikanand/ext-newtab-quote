@@ -30,6 +30,8 @@ export default class View {
 
     // Any misc. views.
     this.newQuoteButtonImg = document.querySelector("#new-quote-button > img");
+    this.quoteTitle = document.getElementById("quote-title");
+    this.quoteAuthor = document.getElementById("quote-author");
 
     // These events are handled by the controller since they do not manipulate view directly.
     this.handleAddQuote = handleAddQuote;
@@ -134,18 +136,15 @@ export default class View {
   }
 
   renderQuote({ quote, author }) {
-    const quoteTitle = document.getElementById("quote-title");
-    const quoteAuthor = document.getElementById("quote-author");
-
-    quoteTitle.classList.add("fade");
-    quoteAuthor.classList.add("fade");
+    this.quoteTitle.classList.add("fade");
+    this.quoteAuthor.classList.add("fade");
 
     setTimeout(() => {
-      quoteTitle.innerText = quote;
-      quoteAuthor.innerText = author;
+      this.quoteTitle.innerText = quote;
+      this.quoteAuthor.innerText = author;
 
-      quoteTitle.classList.remove("fade");
-      quoteAuthor.classList.remove("fade");
+      this.quoteTitle.classList.remove("fade");
+      this.quoteAuthor.classList.remove("fade");
     }, 500);
   }
 

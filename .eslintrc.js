@@ -2,6 +2,7 @@ module.exports = {
   env: {
     browser: true,
     es2021: true,
+    webextensions: true,
   },
   extends: ["airbnb-base", "prettier"],
   overrides: [],
@@ -17,5 +18,7 @@ module.exports = {
         js: "always",
       },
     ],
+    "no-alert": "off",
+    "no-param-reassign": ["error", { props: false }],
   },
 };

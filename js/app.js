@@ -2,6 +2,15 @@ import Model from "./model.js";
 import View from "./view.js";
 import config from "./config.js";
 
+function filterOptionalColors(currentBGColor, optionalBGColors) {
+  const optionalBGColorsCopy = optionalBGColors.slice();
+  const currentBGColorIndex = optionalBGColorsCopy.indexOf(currentBGColor);
+
+  optionalBGColorsCopy.splice(currentBGColorIndex, 1);
+
+  return optionalBGColorsCopy;
+}
+
 // Controller class.
 export default class App {
   constructor() {
@@ -23,7 +32,7 @@ export default class App {
 
     this.view.renderColorButtons({
       currentBGColor: this.model.getCurrentBGColor(),
-      optionalBGColors: this.filterOptionalColors(
+      optionalBGColors: filterOptionalColors(
         this.model.getCurrentBGColor(),
         config.optionalBGColors
       ),
@@ -61,19 +70,10 @@ export default class App {
 
     this.view.renderColorButtons({
       currentBGColor: this.model.getCurrentBGColor(),
-      optionalBGColors: this.filterOptionalColors(
+      optionalBGColors: filterOptionalColors(
         this.model.getCurrentBGColor(),
         config.optionalBGColors
       ),
     });
-  }
-
-  filterOptionalColors(currentBGColor, optionalBGColors) {
-    const optionalBGColorsCopy = optionalBGColors.slice();
-    const currentBGColorIndex = optionalBGColorsCopy.indexOf(currentBGColor);
-
-    optionalBGColorsCopy.splice(currentBGColorIndex, 1);
-
-    return optionalBGColorsCopy;
   }
 }
