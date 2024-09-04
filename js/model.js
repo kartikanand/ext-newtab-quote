@@ -1,4 +1,5 @@
 import config from "./config.js";
+import Storage from "./storage.js";
 
 // Default model when there is nothing in local storage.
 const defaultModel = {
@@ -16,6 +17,7 @@ export default class Model {
   constructor() {
     // TODO: Clone this object.
     this.model = defaultModel;
+    this.storage = new Storage();
   }
 
   getRandomQuote() {
@@ -34,12 +36,11 @@ export default class Model {
 
   async setCurrentBGColor(bgColor) {
     this.model.currentBGColor = bgColor;
-    await chrome.storage.local.set({ quotesModel: this.model });
+    await this.storage.save("quotesModel", this.model);
   }
 
   async load() {
-    const storedData = (await chrome.storage.local.get("quotesModel"))
-      ?.quotesModel;
+    const storedData = await this.storage.load("quotesModel");
 
     if (storedData) {
       this.model = storedData;
@@ -47,11 +48,11 @@ export default class Model {
   }
 
   async save() {
-    await chrome.storage.local.set({ quotesModel: this.model });
+    await this.storage.save("quotesModel", this.model);
   }
 
   async clear() {
-    await chrome.storage.local.clear();
+    await this.storage.clear();
     this.model = defaultModel;
   }
 

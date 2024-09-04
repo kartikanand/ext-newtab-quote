@@ -67,7 +67,7 @@ export default class View {
       ev.preventDefault();
 
       this.newQuote = false;
-      this.addQuote();
+      await this.addQuote();
       this.render();
     });
 
@@ -101,7 +101,7 @@ export default class View {
     });
   }
 
-  addQuote() {
+  async addQuote() {
     const quote = document.getElementById("add-quote-title")?.value;
     const author = document.getElementById("add-quote-author")?.value;
 
@@ -110,7 +110,7 @@ export default class View {
       return;
     }
 
-    this.handleAddQuote({ quote, author });
+    await this.handleAddQuote({ quote, author });
   }
 
   render() {
@@ -150,7 +150,10 @@ export default class View {
 
   renderColorButtons({ currentBGColor, optionalBGColors }) {
     document.body.style.backgroundColor = currentBGColor;
-    this.colorButton.style.backgroundColor = currentBGColor;
+    this.colorButton.style.background = `conic-gradient(
+        from 0deg, 
+        red, yellow, lime, cyan, blue, magenta, red
+    )`;
 
     let i = 0;
     this.subButtons.forEach((button) => {

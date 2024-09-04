@@ -24,6 +24,7 @@ body {
   font-weight: 700;
   margin-top: 20vh;
   font-family: "Victor Mono", monospace;
+  line-height: normal;
 }
 
 .quote-container.disabled {
@@ -133,7 +134,8 @@ body {
   /* position: relative; */
   /* bottom: 0; */
   opacity: 0;
-  transition: opacity 0.3s;
+  visibility: hidden;
+  transition: opacity 0.9s;
   border: 1.5px solid #000;
 }
 
@@ -159,5 +161,46 @@ body {
 
 .show {
   bottom: 70px; /* Change this to move the buttons up/down */
+  visibility: visible;
+  opacity: 1;
+}
+
+.button-container {
+  position: relative;
+  display: block;
+}
+
+.tooltip {
+  visibility: hidden;
+  width: 80px; /* Compact width */
+  background-color: #555;
+  color: #fff;
+  text-align: center;
+  border-radius: 4px;
+  padding: 3px 5px;
+  position: absolute;
+  z-index: 1;
+  top: 50%;
+  right: 100%; /* Position to the left of the button */
+  transform: translateY(-50%);
+  margin-right: 8px; /* Space between button and tooltip */
+  opacity: 0;
+  transition: opacity 0.2s;
+  font-size: 12px;
+}
+
+.tooltip::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 100%; /* Arrow on the right side of the tooltip */
+  margin-top: -4px;
+  border-width: 4px;
+  border-style: solid;
+  border-color: transparent transparent transparent #555; /* Arrow pointing right */
+}
+
+.button-container > .round-btn:hover .tooltip {
+  visibility: visible;
   opacity: 1;
 }
