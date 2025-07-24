@@ -5,6 +5,7 @@ import Storage from "./storage.js";
 const defaultModel = {
   quotes: [
     {
+      id: 1,
       quote:
         "You have power over your mind - not outside events. Realize this, and you will find strength.",
       author: "Marcus Aurelius",
@@ -16,6 +17,7 @@ const defaultModel = {
 export default class Model {
   constructor() {
     // TODO: Clone this object.
+    // TODO: Why does model have a model inside ?
     this.model = defaultModel;
     this.storage = new Storage();
   }
@@ -56,11 +58,35 @@ export default class Model {
     this.model = defaultModel;
   }
 
-  addQuote(quote, author) {
+  addQuote(id, quote, author) {
     this.model.quotes.push({
+      id,
       quote,
       author,
     });
+
+    this.save();
+  }
+
+  editQuote(id, quote, author) {
+    const quoteToEdit = this.model.quotes.find((q) => q.id === id);
+    if (quoteToEdit) {
+      quoteToEdit.quote = quote;
+      quoteToEdit.author = author;
+      this.save();
+    } else {
+      console.error(`Quote with id ${id} not found.`);
+    }
+  }
+
+  deleteQuote(id) {
+    const initialLength = this.model.quotes.length;
+    this.model.quotes = this.model.quotes.filter((q) => q.id !== id);
+    if (this.model.quotes.length < initialLength) {
+      this.save();
+    } else {
+      console.error(`Quote with id ${id} not found.`);
+    }
   }
 
   uploadFile() {
@@ -70,7 +96,7 @@ export default class Model {
     input.accept = ".tsv";
 
     // Add an event listener for when a file is selected.
-    input.addEventListener("change", () => {
+    input.addEventListener("change", (ev) => {
       const reader = new FileReader();
 
       // Setup the callback for when reading is complete.
@@ -82,15 +108,17 @@ export default class Model {
           .map((row) => row.split("\t"))
           .filter((cols) => cols[0] && cols[0].length > 0)
           .map((cols) => ({
-            quote: cols[0],
-            author: cols[1],
+            id: cols[0],
+            quote: cols[1],
+            author: cols[2],
           }));
 
         this.model.quotes = currentQuotes;
+        await this.save();
       };
 
       // Start reading the file as text.
-      reader.readAsText(this.files[0]);
+      reader.readAsText(ev.target.files[0]);
     });
 
     // Programmatically trigger a click to open the file dialog
@@ -102,7 +130,7 @@ export default class Model {
 
     // Convert the data to CSV format.
     const csvContent = currentQuotes
-      .map((quote) => `${quote.quote}\t${quote.author}`)
+      .map((quote) => `${quote.id}\t${quote.quote}\t${quote.author}`)
       .join("\n");
 
     // Create a Blob with the CSV data.

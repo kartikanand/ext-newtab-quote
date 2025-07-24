@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quote Manager</title>
+    <link rel="stylesheet" href="styles/styles.css" />
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 20px;
+        background-color: #f4f4f4;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+
+      h1 {
+        text-align: center;
+        color: #333;
+        margin-bottom: 2rem;
+      }
+
+      .button-group {
+        display: flex;
+        gap: 1.5rem;
+        justify-content: flex-start;
+        margin-bottom: 2rem;
+        padding: 0 1rem;
+      }
+
+      .button-group button {
+        min-width: 200px;
+        padding: 12px 20px;
+        font-size: 1rem;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        background-color: #007bff;
+        color: white;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        gap: 0.8rem;
+      }
+
+      .button-group button:hover {
+        background-color: #0056b3;
+        transform: translateY(-2px);
+      }
+
+      .quotes-table {
+        width: 100%;
+        background: white;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      }
+
+      th {
+        background-color: #007bff;
+        color: white;
+        padding: 15px;
+        text-align: left;
+      }
+
+      td {
+        padding: 15px;
+        border-bottom: 1px solid #eee;
+      }
+
+      tr:last-child td {
+        border-bottom: none;
+      }
+
+      .action-buttons {
+        display: flex;
+        gap: 0.8rem;
+      }
+
+      .edit-button,
+      .delete-button {
+        padding: 8px 16px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        color: white;
+        transition: all 0.3s ease;
+      }
+
+      .edit-button {
+        background-color: #28a745;
+      }
+
+      .delete-button {
+        background-color: #dc3545;
+      }
+
+      .edit-button:hover,
+      .delete-button:hover {
+        transform: translateY(-2px);
+      }
+
+      /* Toast Notification */
+      .toast {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background: #333;
+        color: white;
+        padding: 1rem 2rem;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        animation: slideIn 0.3s ease, fadeOut 0.3s ease 2.7s forwards;
+      }
+
+      @keyframes slideIn {
+        from {
+          transform: translateX(100%);
+        }
+        to {
+          transform: translateX(0);
+        }
+      }
+
+      @keyframes fadeOut {
+        from {
+          opacity: 1;
+        }
+        to {
+          opacity: 0;
+        }
+      }
+
+      /* Responsive Design */
+      @media (max-width: 768px) {
+        .container {
+          padding: 10px;
+        }
+
+        .quotes-table {
+          display: block;
+          overflow-x: auto;
+        }
+      }
+
+      /* Add table hover effect */
+      .quotes-table tbody tr:hover {
+        background-color: #f8f9fa;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Quote Manager</h1>
+      <div class="button-group">
+        <button id="file-upload-button">
+          <img src="/assets/file-upload.svg" alt="" width="20" height="20" />
+          Load Quotes from File
+        </button>
+        <button id="file-download-button">
+          <img src="/assets/file-download.svg" alt="" width="20" height="20" />
+          Save Quotes to File
+        </button>
+        <button id="new-quote-button">
+          <img src="/assets/add.svg" alt="" width="20" height="20" />
+          Add New Quote
+        </button>
+      </div>
+
+      <table class="quotes-table">
+        <thead>
+          <tr>
+            <th>Quote</th>
+            <th>Author</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+
+      <div class="add-quote-container">
+        <form class="add-quote-form">
+          <label for="add-quote-title">Quote</label>
+          <textarea
+            name="add-quote-title"
+            id="add-quote-title"
+            rows="10"
+          ></textarea>
+
+          <label for="add-quote-author">Author</label>
+          <input type="text" name="add-quote-author" id="add-quote-author" />
+
+          <button id="add-quote-button" type="button">Submit</button>
+        </form>
+      </div>
+    </div>
+
+    <script type="module" src="settings.js"></script>
+  </body>
+</html>

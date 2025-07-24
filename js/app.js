@@ -1,19 +1,18 @@
+/* eslint-disable no-restricted-globals */
 import Model from "./model.js";
-import View from "./view.js";
+import NewTabView from "./newtab-view.js";
+import SettingsView from "./settings-view.js";
 import config from "./config.js";
 
 // Controller class.
 export default class App {
   constructor() {
     this.model = new Model();
-    this.view = new View({
-      handleAddQuote: this.handleAddQuote.bind(this),
-      handleRandomQuote: this.handleRandomQuote.bind(this),
-      handleDeleteAll: this.handleDeleteAll.bind(this),
-      handleFileDownload: this.handleFileDownload.bind(this),
-      handleFileUpload: this.handleFileUpload.bind(this),
-      handleBGColorChange: this.handleBGColorChange.bind(this),
-    });
+
+    this.view =
+      top.location.pathname === "/settings.html"
+        ? new SettingsView(this)
+        : new NewTabView(this);
   }
 
   async init() {
@@ -21,18 +20,29 @@ export default class App {
 
     this.view.render();
 
-    this.view.renderColorButtons({
-      currentBGColor: this.model.getCurrentBGColor(),
-      optionalBGColors: config.optionalBGColors,
-    });
+    // TODO: Move to NewTabView
+    if (top.location.pathname !== "/settings.html") {
+      this.view.renderColorButtons({
+        currentBGColor: this.model.getCurrentBGColor(),
+        optionalBGColors: config.optionalBGColors,
+      });
 
-    this.handleRandomQuote();
+      this.handleRandomQuote();
+    }
   }
 
   async handleAddQuote({ quote, author }) {
     this.model.addQuote(quote, author);
-    this.view.renderQuote({ quote, author });
+    if (top.location.pathname !== "/settings.html") {
+      this.view.renderQuote({ quote, author });
+    }
     await this.model.save();
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  handleSettingsButtonClick() {
+    // eslint-disable-next-line no-restricted-globals
+    top.location.href = "/settings.html";
   }
 
   handleRandomQuote() {
@@ -51,11 +61,12 @@ export default class App {
 
   handleFileUpload() {
     this.model.uploadFile();
-    this.handleRandomQuote();
+    if (top.location.pathname !== "/settings.html") {
+      this.handleRandomQuote();
+    }
   }
 
   async handleBGColorChange(currentBGColor) {
-    console.log("coming here");
     await this.model.setCurrentBGColor(currentBGColor);
 
     this.view.renderColorButtons({
