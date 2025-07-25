@@ -4,24 +4,245 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>New Tab Quote</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
 
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Victor+Mono:wght@500&display=swap"
-      rel="stylesheet"
-    />
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        color: white;
+        text-align: center;
+        padding: 2rem;
+        transition: background 0.5s ease;
+      }
 
-    <link rel="stylesheet" href="/styles/styles.css" />
+      .container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+      }
+
+      .quote-container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 2rem;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 20px;
+        backdrop-filter: blur(10px);
+        box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
+        border: 1px solid rgba(255, 255, 255, 0.18);
+      }
+
+      #quote-title {
+        font-size: 2rem;
+        font-weight: 300;
+        line-height: 1.4;
+        margin-bottom: 1rem;
+        transition: opacity 0.5s ease;
+      }
+
+      #quote-author {
+        font-size: 1.2rem;
+        opacity: 0.8;
+        font-style: italic;
+      }
+
+      .fade {
+        opacity: 0.3;
+      }
+
+      .menu-container {
+        position: fixed;
+        bottom: 2rem;
+        right: 2rem;
+        display: flex;
+        flex-direction: column-reverse;
+        align-items: center;
+        gap: 1rem;
+      }
+
+      .button-container {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .round-btn {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        border: none;
+        background: rgba(255, 255, 255, 0.2);
+        backdrop-filter: blur(10px);
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      }
+
+      .round-btn:hover {
+        transform: scale(1.1);
+        background: rgba(255, 255, 255, 0.3);
+      }
+
+      .round-btn img {
+        width: 24px;
+        height: 24px;
+        filter: brightness(0) invert(1);
+      }
+
+      .brush-icon {
+        width: 24px;
+        height: 24px;
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .brush-icon::before {
+        content: "";
+        width: 18px;
+        height: 3px;
+        background: white;
+        border-radius: 2px;
+        transform: rotate(-45deg);
+        position: absolute;
+      }
+
+      .brush-icon::after {
+        content: "";
+        width: 8px;
+        height: 8px;
+        background: white;
+        border-radius: 2px;
+        position: absolute;
+        top: 3px;
+        right: 2px;
+        transform: rotate(-45deg);
+      }
+
+      .tooltip {
+        position: absolute;
+        right: 80px;
+        top: 50%;
+        transform: translateY(-50%);
+        background: rgba(0, 0, 0, 0.8);
+        color: white;
+        padding: 0.5rem 1rem;
+        border-radius: 6px;
+        font-size: 0.9rem;
+        white-space: nowrap;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.3s ease;
+      }
+
+      .round-btn:hover .tooltip {
+        opacity: 1;
+      }
+
+      .hidden {
+        opacity: 0;
+        transform: translateY(20px) scale(0.8);
+        pointer-events: none;
+      }
+
+      .show {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        pointer-events: all;
+      }
+
+      .sub-menu {
+        position: absolute;
+        right: 80px;
+        top: 0;
+        display: flex;
+        gap: 0.5rem;
+        transition: all 0.3s ease;
+      }
+
+      .sub-menu .round-btn {
+        width: 40px;
+        height: 40px;
+      }
+
+      .add-quote-container {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: rgba(255, 255, 255, 0.95);
+        color: #333;
+        padding: 2rem;
+        border-radius: 15px;
+        backdrop-filter: blur(20px);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        max-width: 500px;
+        width: 90%;
+        display: none;
+      }
+
+      .add-quote-container.active {
+        display: block;
+      }
+
+      .add-quote-form {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      .add-quote-form label {
+        font-weight: 600;
+        text-align: left;
+      }
+
+      .add-quote-form textarea,
+      .add-quote-form input {
+        padding: 0.8rem;
+        border: 2px solid #ddd;
+        border-radius: 8px;
+        font-size: 1rem;
+        resize: vertical;
+      }
+
+      .add-quote-form button {
+        padding: 1rem;
+        background: #667eea;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: background 0.3s ease;
+      }
+
+      .add-quote-form button:hover {
+        background: #5a67d8;
+      }
+
+      .disabled {
+        display: none;
+      }
+    </style>
   </head>
   <body>
     <div class="container">
       <div class="quote-container">
-        <h3 id="quote-title">
-          You have power over your mind - not outside events. Realize this, and
-          you will find strength.
-        </h3>
-        <h5 id="quote-author">Marcus Aurelius</h5>
+        <h3 id="quote-title"></h3>
+        <h5 id="quote-author"></h5>
       </div>
 
       <div class="add-quote-container">
@@ -64,11 +285,10 @@
         </div>
         <div class="button-container color-button-container">
           <button id="color-button" class="color-button round-btn hidden">
-            <img alt="" srcset="" />
+            <div class="brush-icon"></div>
             <span class="tooltip">Change background color</span>
           </button>
           <div class="sub-menu hidden">
-            <button class="round-btn hidden"></button>
             <button class="round-btn hidden"></button>
             <button class="round-btn hidden"></button>
             <button class="round-btn hidden"></button>
@@ -84,6 +304,6 @@
       </div>
     </div>
 
-    <script type="module" src="/newtab.js"></script>
+    <script type="module" src="/main.js"></script>
   </body>
 </html>
